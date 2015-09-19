@@ -1,15 +1,24 @@
-angular.module('cync.controllers', ['cync.services'])
+angular.module('cync.controllers', ['cync.services', 'cync.parse'])
 
-.controller('NewCtrl', function($scope, $state, groups, remote) {
+.controller('NewCtrl', function($scope, $state, groups, remote, incyncParse) {
     $scope.group = {};
     $scope.group.name = '';
     $scope.inputValid = '';
 
     $scope.validate = function() {
         if ($scope.group.name !== '') {
-            $scope.inputValid = remote.validate($scope.group.name) ? 'input-valid' : 'input-invalid';
-        } else {
             $scope.inputValid = '';
+            incyncParse.validate($scope.group.name).then(
+              function(data) {
+                console.log(data);
+                $scope.inputValid = data.result ? 'input-invalid' : 'input-valid';
+              },
+              function(error) {
+                $scope.inputValid = '';
+              }
+            )
+        } else {
+          $scope.inputValid = '';
         }
     };
 
