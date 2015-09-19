@@ -49,6 +49,11 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'c
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/new');
+  if (!window.localStorage['groups']) {
+      $urlRouterProvider.otherwise('/new');
+  } else {
+      $urlRouterProvider.otherwise('/cync');
+  }
+
 
 });

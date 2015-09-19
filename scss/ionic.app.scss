@@ -28,15 +28,23 @@ $RobotoDraftFontVersion: "1.0.0";
 @import "www/lib/robotodraft/sass/robotodraft";
 
 .input-invalid {
-    border-color: $assertive;
+    border-color: $positive;
 }
 
 .input-valid {
     border-color: $balanced;
 }
 
+.input-error {
+    border-color: $assertive;
+}
+
 .confirm-icon {
     color: $balanced;
+}
+
+.join-icon {
+    color: $positive;
 }
 
 .fab {

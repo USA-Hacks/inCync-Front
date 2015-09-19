@@ -1,6 +1,6 @@
-angular.module('cync.controllers', ['cync.services', 'cync.parse'])
+angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
-.controller('NewCtrl', function($scope, $state, groups, incyncParse) {
+.controller('NewCtrl', function($scope, $state, groups, incyncParse, $ionicHistory) {
     $scope.group = {};
     $scope.group.name = '';
     $scope.inputValid = '';
@@ -13,7 +13,7 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
                 $scope.inputValid = data.result ? 'input-invalid' : 'input-valid';
               },
               function(error) {
-                $scope.inputValid = 'input-invalid';
+                $scope.inputValid = 'input-error';
               }
             )
         } else {
@@ -24,14 +24,25 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
     $scope.addGroup = function() {
         if ($scope.inputValid === 'input-valid') {
             groups.addGroup($scope.group.name, function(id) {
-                $state.go('group', {id: id});
+                $scope.group = {name: ''};
+                $scope.inputValid = '';
+                $state.go('cync');
+            });
+        } else if ($scope.inputValid === 'input-invalid') {
+            groups.joinGroup($scope.group.name, function() {
+                $scope.group = {name: ''};
+                $scope.inputValid = '';
+                $state.go('cync');
             });
         }
     };
 })
 
 .controller('CyncCtrl', function($scope, $state, groups) {
-    $scope.groups = groups.getGroups();
+    $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.groups = groups.getGroups();
+    });
+
     $scope.addGroup = function() {
         $state.go('new');
     };
@@ -42,5 +53,8 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
 })
 
 .controller('GroupCtrl', function($scope, $stateParams, groups) {
-    $scope.group = groups.getGroup($stateParams.id);
+    $scope.group = {};
+    groups.getGroup($stateParams.id, function(group) {
+        $scope.group = group;
+    });
 });

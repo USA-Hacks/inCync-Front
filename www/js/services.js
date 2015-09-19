@@ -15,6 +15,21 @@ angular.module('cync.services', ['cync.parse'])
         });
     };
 
+    var joinGroup = function(groupName, callback) {
+        var groups = getGroups();
+        incyncParse.get_presentation(groupName).then(function(data) {
+            data = JSON.parse(data.result);
+            var res = groups.filter(function(g) { return g.id === data.objectId });
+
+            if (res.length === 0) {
+                groups.push({name: data.name, id: data.objectId});
+                window.localStorage['groups'] = JSON.stringify(groups);
+            }
+
+            if (callback) callback();
+        });
+    }
+
     var deleteGroup = function(groupName) {
         var groups = getGroups().filter(function(group) {
             return group.name !== groupName;
@@ -24,16 +39,17 @@ angular.module('cync.services', ['cync.parse'])
         return groups;
     };
 
-    var getGroup = function(id) {
-        return getGroups().filter(function(group) {
-            return group.id === id;
-        })[0];
+    var getGroup = function(groupName, callback) {
+        incyncParse.get_presentation(groupName).then(function(data) {
+            if (callback) callback(JSON.parse(data.result));
+        }, function(e) { console.log("OMG", e); });
     }
 
     return {
         getGroups: getGroups,
         addGroup: addGroup,
         deleteGroup: deleteGroup,
-        getGroup: getGroup
+        getGroup: getGroup,
+        joinGroup: joinGroup
     };
 });

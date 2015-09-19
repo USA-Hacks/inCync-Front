@@ -54,12 +54,12 @@ angular.module('cync.parse', [])
       return dataPromise.promise;
     };
 
-    var get_presentation = function(id)  {
+    var get_presentation = function(name)  {
         var dataPromise = $q.defer();
 
         var data = {
-          id: id
-        }
+          name: name
+      };
 
         $http({
           url: cyncAPI + "/get_presentation",

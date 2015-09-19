@@ -7782,13 +7782,19 @@ a.button {
 
 /* END Black */
 .input-invalid {
-  border-color: #ef473a; }
+  border-color: #387ef5; }
 
 .input-valid {
   border-color: #33cd5f; }
 
+.input-error {
+  border-color: #ef473a; }
+
 .confirm-icon {
   color: #33cd5f; }
+
+.join-icon {
+  color: #387ef5; }
 
 .fab {
   color: #387ef5; }
