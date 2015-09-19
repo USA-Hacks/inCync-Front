@@ -1,6 +1,6 @@
 angular.module('cync.controllers', ['cync.services', 'cync.parse'])
 
-.controller('NewCtrl', function($scope, $state, groups, remote, incyncParse) {
+.controller('NewCtrl', function($scope, $state, groups, incyncParse) {
     $scope.group = {};
     $scope.group.name = '';
     $scope.inputValid = '';
@@ -23,9 +23,9 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
 
     $scope.addGroup = function() {
         if ($scope.inputValid === 'input-valid') {
-            groups.addGroup($scope.group);
-            $state.group = {name: ''};
-            $state.go('cync');
+            groups.addGroup($scope.group.name, function(id) {
+                $state.go('group', {id: id});
+            });
         }
     };
 })
@@ -36,12 +36,11 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
         $state.go('new');
     };
 
-    $scope.goto = function(name) {
-        $state.go('group', {name: name});
+    $scope.goto = function(id) {
+        $state.go('group', {id: id});
     }
 })
 
 .controller('GroupCtrl', function($scope, $stateParams, groups) {
-    console.log($stateParams.name);
-    $scope.group = groups.getGroup($stateParams.name);
+    $scope.group = groups.getGroup($stateParams.id);
 });

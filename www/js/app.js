@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'c
   })
 
   .state('group', {
-      url: '/group/:name',
+      url: '/group/:id',
       templateUrl: 'templates/group.html',
       controller: 'GroupCtrl'
   })
