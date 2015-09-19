@@ -36,6 +36,12 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'c
       controller: 'CyncCtrl'
   })
 
+  .state('group', {
+      url: '/group/:name',
+      templateUrl: 'templates/group.html',
+      controller: 'GroupCtrl'
+  })
+
   .state('new', {
      url: '/new',
      templateUrl: 'templates/new.html',

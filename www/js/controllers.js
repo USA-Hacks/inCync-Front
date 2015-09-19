@@ -10,11 +10,10 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
             $scope.inputValid = '';
             incyncParse.validate($scope.group.name).then(
               function(data) {
-                console.log(data);
                 $scope.inputValid = data.result ? 'input-invalid' : 'input-valid';
               },
               function(error) {
-                $scope.inputValid = '';
+                $scope.inputValid = 'input-invalid';
               }
             )
         } else {
@@ -23,12 +22,26 @@ angular.module('cync.controllers', ['cync.services', 'cync.parse'])
     };
 
     $scope.addGroup = function() {
-        groups.addGroup($scope.group);
-        console.log(groups.getGroups());
-        $state.go('cync');
+        if ($scope.inputValid === 'input-valid') {
+            groups.addGroup($scope.group);
+            $state.group = {name: ''};
+            $state.go('cync');
+        }
     };
 })
 
-.controller('CyncCtrl', function($scope, groups) {
+.controller('CyncCtrl', function($scope, $state, groups) {
     $scope.groups = groups.getGroups();
+    $scope.addGroup = function() {
+        $state.go('new');
+    };
+
+    $scope.goto = function(name) {
+        $state.go('group', {name: name});
+    }
+})
+
+.controller('GroupCtrl', function($scope, $stateParams, groups) {
+    console.log($stateParams.name);
+    $scope.group = groups.getGroup($stateParams.name);
 });

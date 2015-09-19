@@ -1,11 +1,20 @@
-<ion-view hide-nav-bar="true">
+<ion-view hide-nav-bar="true" cache-view="false">
     <ion-content>
         <div class="groups" ng-repeat="group in groups">
-            <div class="card">
+            <div class="card" ng-click="goto(group.name)">
                 <div class="item item-text-wrap">
                     <h1>{{ group.name }}</h1>
+                    <i class="icon ion-person"></i>
+                    11
+                    &nbsp;
+                    &nbsp;
+                    <i class="icon ion-clock"></i>
+                    11:24
                 </div>
             </div>
+        </div>
+        <div class="fab" ng-click="addGroup()">
+            <i class="icon ion-ios-plus"></i>
         </div>
     </ion-content>
 </ion-view>
