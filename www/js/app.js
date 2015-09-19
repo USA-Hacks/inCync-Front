@@ -46,6 +46,15 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'c
       controller: 'GroupCtrl'
   })
 
+  .state('group.timer', {
+      url: '/timer',
+      views: {
+          'innerContent': {
+              templateUrl: 'templates/timer.html'
+          }
+      }
+  })
+
   .state('new', {
      url: '/new',
      templateUrl: 'templates/new.html',

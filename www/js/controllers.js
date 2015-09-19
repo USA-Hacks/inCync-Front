@@ -52,9 +52,13 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     }
 })
 
-.controller('GroupCtrl', function($scope, $stateParams, groups) {
+.controller('GroupCtrl', function($scope, $stateParams, $state, groups) {
     $scope.group = {};
     groups.getGroup($stateParams.id, function(group) {
         $scope.group = group;
     });
+
+    $scope.gotoTimer = function() {
+        $state.go('.timer');
+    }
 });
