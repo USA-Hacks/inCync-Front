@@ -39,16 +39,15 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 })
 
 .controller('CyncCtrl', function($scope, $state, groups) {
-    $scope.$on('$ionicView.beforeEnter', function() {
-        $scope.groups = groups.getGroups();
-    });
-
     $scope.button = 'add';
-
+    $scope.groups = groups.getGroups();
+    
     $scope.addGroup = function() {
         if ($scope.button === 'add') {
             $state.go('new');
         } else {
+            $scope.button = 'add';
+            $scope.groups = groups.getGroups();
             $state.go('cync');
         }
     };
