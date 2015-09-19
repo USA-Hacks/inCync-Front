@@ -5,9 +5,13 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'cync.services', 'cync.parse'])
+angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'cync.services', 'cync.parse', 'pubnub.angular.service'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, PubNub) {
+  PubNub.init({
+    publish_key:'pub-c-5f5b4359-bec5-4bb4-a396-db7ccb6282ce',
+    subscribe_key:'sub-c-8495b6b2-5f09-11e5-a028-0619f8945a4f'
+  })
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
