@@ -1,11 +1,25 @@
-<ion-view hide-nav-bar="true">
+<ion-view hide-nav-bar="true" cache-view="false">
     <ion-content>
-        <div class="groups" ng-repeat="group in groups">
-            <div class="card">
-                <div class="item item-text-wrap">
-                    <h1>{{ group.name }}</h1>
-                </div>
+        <ion-list can-swipe="true">
+            <div class="groups" ng-repeat="group in groups">
+                <ion-item class="" ng-click="goto(group.id)">
+                    <div>
+                        <h1>{{ group.name }}</h1>
+                        <i class="icon ion-person"></i>
+                        11
+                        &nbsp;
+                        &nbsp;
+                        <i class="icon ion-clock"></i>
+                        11:24
+                    </div>
+                    <ion-option-button class="button-assertive"
+                        ng-click="delete(group.id)">Delete
+                    </ion-option-button>
+                </ion-item>
             </div>
+        </ion-list>
+        <div class="fab" ng-click="addGroup()">
+            <i class="icon ion-ios-plus"></i>
         </div>
     </ion-content>
 </ion-view>

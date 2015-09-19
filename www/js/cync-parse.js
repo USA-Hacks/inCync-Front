@@ -31,6 +31,7 @@ angular.module('cync.parse', [])
     };
 
     var create_presentation = function(name, settings) {
+      settings = settings || [];
       var dataPromise = $q.defer();
 
       var data = {
