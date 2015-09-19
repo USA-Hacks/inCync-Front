@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6, p, li, .title, button {
     left: 0;
     top: 0;
     position: absolute;
-    padding-top: 85vh;
-    padding-left: 80vw;
+    margin-top: 85vh;
+    margin-left: 80vw;
     font-size: 70px;
 }
