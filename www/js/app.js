@@ -30,6 +30,11 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'cync.controllers', 'c
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+  .state('cync', {
+      url: '/cync',
+      templateUrl: 'templates/cync.html',
+      controller: 'CyncCtrl'
+  })
 
   .state('new', {
      url: '/new',

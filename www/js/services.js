@@ -15,7 +15,7 @@ angular.module('cync.services', [])
 
     var deleteGroup = function(groupName) {
         var groups = getGroups().filter(function(group) {
-            return group !== groupName;
+            return group.name !== groupName;
         });
 
         window.localStorage['groups'] = JSON.stringify(groups);
@@ -31,7 +31,7 @@ angular.module('cync.services', [])
 
 .factory('remote', function() {
     var validate = function(groupName) {
-        return groupName[0] !== x;
+        return groupName[0] !== 'x';
     };
 
     return {

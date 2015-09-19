@@ -1,1 +1,17 @@
 /* Empty. Add your own CSS if you like */
+
+.cync-center {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, .title {
+    font-family: 'Raleway';
+}
+
+.new-view {
+    padding-top: 30%;
+}
+
+.new-form {
+    height: 50px;
+}

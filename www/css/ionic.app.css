@@ -7781,3 +7781,11 @@ a.button {
   font-style: normal; }
 
 /* END Black */
+.input-invalid {
+  border-color: #ef473a; }
+
+.input-valid {
+  border-color: #33cd5f; }
+
+.confirm-icon {
+  color: #33cd5f; }

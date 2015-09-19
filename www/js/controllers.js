@@ -3,14 +3,23 @@ angular.module('cync.controllers', ['cync.services'])
 .controller('NewCtrl', function($scope, $state, groups, remote) {
     $scope.group = {};
     $scope.group.name = '';
+    $scope.inputValid = '';
 
     $scope.validate = function() {
-        return remote.validate($scope.group.name);
+        if ($scope.group.name !== '') {
+            $scope.inputValid = remote.validate($scope.group.name) ? 'input-valid' : 'input-invalid';
+        } else {
+            $scope.inputValid = '';
+        }
     };
 
     $scope.addGroup = function() {
-        groups.addGroup($scope.group.name);
+        groups.addGroup($scope.group);
         console.log(groups.getGroups());
-        //$state.go('cync', $scope.group.name);
+        $state.go('cync');
     };
+})
+
+.controller('CyncCtrl', function($scope, groups) {
+    $scope.groups = groups.getGroups();
 });

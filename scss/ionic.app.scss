@@ -26,3 +26,15 @@ $RobotoDraftFontName: "RobotoDraft";
 $RobotoDraftFontVersion: "1.0.0";
 
 @import "www/lib/robotodraft/sass/robotodraft";
+
+.input-invalid {
+    border-color: $assertive;
+}
+
+.input-valid {
+    border-color: $balanced;
+}
+
+.confirm-icon {
+    color: $balanced;
+}
