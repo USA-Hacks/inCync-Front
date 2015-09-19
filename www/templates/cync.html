@@ -1,9 +1,9 @@
 <ion-view hide-nav-bar="true">
     <ion-content>
-        <ion-list can-swipe="true">
+        <ui-view name="outerContent">
             <div class="groups" ng-repeat="group in groups">
-                <ion-item class="" ng-click="goto(group.name)">
-                    <div>
+                <md-card class="" ng-click="goto(group.name)">
+                    <md-card-content>
                         <h1>{{ group.name }}</h1>
                         <i class="icon ion-person"></i>
                         11
@@ -11,15 +11,16 @@
                         &nbsp;
                         <i class="icon ion-clock"></i>
                         11:24
+                    </md-card-content>
+                    <div class="md-actions" layout="row" layout-align="end center">
+                        <md-button>Edit</md-button>
+                        <md-button class="md-warn">Delete</md-button>
                     </div>
-                    <ion-option-button class="button-assertive"
-                        ng-click="delete(group.id)">Delete
-                    </ion-option-button>
-                </ion-item>
+                </md-card>
             </div>
-        </ion-list>
+        </ui-view>
         <md-button class="fab md-fab" ng-click="addGroup()">
-            <md-icon md-font-icon="android" alt="android"></md-icon>
-        </div>
+            <md-icon md-font-set="material-icons">{{ button }}</i>
+        </md-button>
     </ion-content>
 </ion-view>

@@ -43,18 +43,29 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         $scope.groups = groups.getGroups();
     });
 
+    $scope.button = 'add';
+
     $scope.addGroup = function() {
-        $state.go('new');
+        if ($scope.button === 'add') {
+            $state.go('new');
+        } else {
+            $state.go('cync');
+        }
     };
 
     $scope.goto = function(id) {
-        $state.go('group', {id: id});
+        $scope.button = 'reply';
+        $state.go('.group', {id: id});
     }
+
+
 })
 
 .controller('GroupCtrl', function($scope, $stateParams, $state, groups) {
     $scope.group = {};
+    $scope.doneLoading = false;
     groups.getGroup($stateParams.id, function(group) {
+        $scope.doneLoading = true;
         $scope.group = group;
     });
 

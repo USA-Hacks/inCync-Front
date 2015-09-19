@@ -40,13 +40,17 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
       controller: 'CyncCtrl'
   })
 
-  .state('group', {
+  .state('cync.group', {
       url: '/group/:id',
-      templateUrl: 'templates/group.html',
-      controller: 'GroupCtrl'
+      views: {
+          'outerContent': {
+              templateUrl: 'templates/group.html',
+              controller: 'GroupCtrl'
+          }
+      }
   })
 
-  .state('group.timer', {
+  .state('cync.group.timer', {
       url: '/timer',
       views: {
           'innerContent': {
@@ -68,5 +72,9 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
       $urlRouterProvider.otherwise('/cync');
   }
 
-  $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('deep-orange');
+  $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('deep-purple');
+
+  $mdIconProvider
+      .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+      .defaultIconSet('img/icons/sets/core-icons.svg', 24);
 });
