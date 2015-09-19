@@ -98,10 +98,35 @@ angular.module('cync.parse', [])
         return dataPromise.promise;
     };
 
+    var update_presentation = function(id, settings) {
+      settings = settings || [];
+      var dataPromise = $q.defer();
+
+      var data = {
+        id: id,
+        settings: settings
+      }
+
+      $http({
+        url: cyncAPI + "/update_presentation",
+        method: "POST",
+        data: JSON.stringify(data),
+        headers: cyncHeaders
+      })
+      .success(function (data, status, headers, config) {
+         dataPromise.resolve(data);
+      })
+      .error(function (data, status, headers, config) {
+         dataPromise.reject();
+      });
+      return dataPromise.promise;
+    };
+
     return {
         validate: validate,
         create_presentation: create_presentation,
         get_presentation: get_presentation,
-        start_presentation: start_presentation
+        start_presentation: start_presentation,
+        update_presentation: update_presentation
     };
 })
