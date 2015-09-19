@@ -9,14 +9,81 @@ angular.module('cync.parse', [])
     };
 
     var validate = function(name)  {
+      var dataPromise = $q.defer();
+
+      var data = {
+        name: name
+      }
+
+      $http({
+        url: cyncAPI + "/validate",
+        method: "POST",
+        data: JSON.stringify(data),
+        headers: cyncHeaders
+      })
+      .success(function (data, status, headers, config) {
+         dataPromise.resolve(data);
+      })
+      .error(function (data, status, headers, config) {
+         dataPromise.reject();
+      });
+      return dataPromise.promise;
+    };
+
+    var create_presentation = function(name, settings) {
+      var dataPromise = $q.defer();
+
+      var data = {
+        name: name,
+        settings: settings
+      }
+
+      $http({
+        url: cyncAPI + "/create_presentation",
+        method: "POST",
+        data: JSON.stringify(data),
+        headers: cyncHeaders
+      })
+      .success(function (data, status, headers, config) {
+         dataPromise.resolve(data);
+      })
+      .error(function (data, status, headers, config) {
+         dataPromise.reject();
+      });
+      return dataPromise.promise;
+    };
+
+    var get_presentation = function(id)  {
         var dataPromise = $q.defer();
 
         var data = {
-          name: name
+          id: id
         }
 
         $http({
-          url: cyncAPI + "/validate",
+          url: cyncAPI + "/get_presentation",
+          method: "POST",
+          data: JSON.stringify(data),
+          headers: cyncHeaders
+        })
+        .success(function (data, status, headers, config) {
+           dataPromise.resolve(data);
+        })
+        .error(function (data, status, headers, config) {
+           dataPromise.reject();
+        });
+        return dataPromise.promise;
+    };
+
+    var start_presentation = function(id)  {
+        var dataPromise = $q.defer();
+
+        var data = {
+          id: id
+        }
+
+        $http({
+          url: cyncAPI + "/start_presentation",
           method: "POST",
           data: JSON.stringify(data),
           headers: cyncHeaders
@@ -31,6 +98,9 @@ angular.module('cync.parse', [])
     };
 
     return {
-        validate: validate
+        validate: validate,
+        create_presentation: create_presentation,
+        get_presentation: get_presentation,
+        start_presentation: start_presentation
     };
 })
