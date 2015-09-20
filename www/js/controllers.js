@@ -133,7 +133,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     }
 
     $scope.addTime = function() {
-      var time = parseInt(($scope.settings.mins * 60) + $scope.settings.secs);
+      var time = (parseInt($scope.settings.mins) * 60) + parseInt($scope.settings.secs));
       $scope.group.settings.push(time);
     }
 
