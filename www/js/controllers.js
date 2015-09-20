@@ -88,19 +88,24 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         $scope.started = true;
     };
 
-    $scope.start = function() {
-        console.log($scope.group)
+    $scope.save = function(callback) {
         if ($scope.settings.count && $scope.settings.interval) {
-            var arr = [];
+            var arr = [], total = parseInt($scope.settings.interval);
             for (var i = 0; i < $scope.settings.count; ++i) {
                 arr.push($scope.settings.interval * (i + 1));
+                total += parseInt($scope.settings.interval);
             }
-            arr.push($scope.settings.count * $scope.settings.interval);
+            arr.push(total);
 
             incyncParse.update_presentation($scope.group.objectId, arr).then(function() {
-
+                if (callback) callback();
             });
+        }
+    };
 
+    $scope.start = function() {
+        $scope.save(function() {
+            incyncParse.start_presentation($scope.group.objectId);
             try {
                 $cordovaVibration.vibrate(2500);
             } catch (e) {
@@ -112,6 +117,6 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                     alert('Vibration is not supported on this device');
                 }
             }
-        }
-    }
+        });
+    };
 });
