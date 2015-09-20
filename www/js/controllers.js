@@ -42,6 +42,13 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
 .controller('GroupsCtrl', function($scope, $state, $rootScope, groups, $window, PubNub) {
     $scope.groups = groups.getGroups();
+    document.getElementById('fab').setAttribute('style', '');
+
+    if (!$scope.groups || $scope.groups.length === 0) {
+        document.getElementById('fab').setAttribute('style', 'display:none');
+        $state.go('cync.new');
+    }
+
     if (window.subscribed) {
         window.subscribed.forEach(function(group) {
             console.log('leaving ' + group.name);
@@ -62,6 +69,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 })
 
 .controller('CyncCtrl', function($scope, $state, groups, $rootScope) {
+    $scope.hideFAB = false;
     $rootScope.button = 'add';
 
     $scope.fabAction = function() {
