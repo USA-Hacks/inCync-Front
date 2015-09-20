@@ -62,9 +62,6 @@
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.myapp408995"
         },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.myapp408995"
-        },
         "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.ionicframework.myapp408995"
         }
