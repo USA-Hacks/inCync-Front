@@ -134,7 +134,10 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
     $scope.addTime = function() {
       var time = (parseInt($scope.settings.mins) * 60) + parseInt($scope.settings.secs);
-      $scope.group.settings.push(time);
+      var index = $scope.group.settings.indexOf(time);
+      if(index === -1) {
+        $scope.group.settings.push(time);
+      }
     }
 
     $scope.save = function(callback) {
