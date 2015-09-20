@@ -40,30 +40,28 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     };
 })
 
-.controller('CyncCtrl', function($scope, $state, groups) {
-    $scope.button = 'add';
+.controller('GroupsCtrl', function($scope, $state, $rootScope) {
+    console.log($scope.groups);
+    $scope.goto = function(id) {
+        $rootScope.button = 'reply';
+        $state.go('cync.group', {id: id});
+    }
+})
+
+.controller('CyncCtrl', function($scope, $state, groups, $rootScope) {
+    $rootScope.button = 'add';
     $scope.groups = groups.getGroups();
 
     $scope.fabAction = function() {
-        if ($scope.button === 'add') {
-            $scope.button = 'reply';
-            $state.go('.new');
+        if ($rootScope.button === 'add') {
+            $rootScope.button = 'reply';
+            $state.go('cync.new');
         } else {
-            $scope.button = 'add';
+            $rootScope.button = 'add';
             $scope.groups = groups.getGroups();
-            $state.go('cync');
+            $state.go('cync.groups');
         }
     };
-
-    $scope.goto = function(id) {
-        $scope.button = 'reply';
-        $state.go('.group', {id: id});
-    }
-
-    if (!$scope.groups || $scope.groups.length === 0) {
-        console.log(77)
-        $scope.fabAction();
-    }
 })
 
 .controller('GroupCtrl', function($scope, $stateParams, $state, groups) {

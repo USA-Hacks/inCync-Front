@@ -1,9 +1,7 @@
 <div>
     <div ng-if="doneLoading">
         <h1>{{ group.name }}</h1>
-        <ui-view name="innerContent">
-            <button ng-click="gotoTimer()">Hey</button>
-        </ui-view>
+        <button ng-click="">Hey</button>
     </div>
     <div ng-if="!doneLoading">
         <ion-spinner style="position:absolute;top:0;width:200px;height:200px;margin-top:50vh;margin-left:50vw;" icon="spiral"></ion-spinner>

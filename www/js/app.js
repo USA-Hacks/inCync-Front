@@ -40,23 +40,26 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
       controller: 'CyncCtrl'
   })
 
+  .state('cync.groups', {
+      url: '/groups',
+      views: {
+          'outerContent': {
+              templateUrl: 'templates/groups.html',
+              controller: 'GroupsCtrl'
+          }
+      }
+
+  })
+
   .state('cync.group', {
       url: '/group/:id',
       views: {
-          'outerContent': {
+          outerContent: {
               templateUrl: 'templates/group.html',
               controller: 'GroupCtrl'
           }
       }
-  })
 
-  .state('cync.group.timer', {
-      url: '/timer',
-      views: {
-          'innerContent': {
-              templateUrl: 'templates/timer.html'
-          }
-      }
   })
 
   .state('cync.new', {
@@ -70,7 +73,7 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/cync');
+  $urlRouterProvider.otherwise('/cync/groups');
 
   $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('deep-purple');
 
