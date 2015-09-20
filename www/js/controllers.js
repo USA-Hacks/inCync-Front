@@ -74,7 +74,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     };
 })
 
-.controller('GroupCtrl', function($scope, $stateParams, $state, groups) {
+.controller('GroupCtrl', function($scope, $stateParams, $state, groups, incyncParse, $cordovaVibration) {
     $scope.group = {};
     $scope.settings = {};
     $scope.doneLoading = false;
@@ -86,5 +86,24 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
     $scope.gotoTimer = function() {
         $scope.started = true;
+    };
+
+    $scope.start = function() {
+        console.log($scope.group)
+        if ($scope.settings.count && $scope.settings.interval) {
+            var arr = [];
+            for (var i = 0; i < $scope.settings.count; ++i) {
+                arr.push($scope.settings.interval * (i + 1));
+            }
+            arr.push($scope.settings.count * $scope.settings.interval);
+
+            incyncParse.update_presentation($scope.group.objectId, arr).then(function() {
+
+            });
+            alert('Doing thissss');
+            try {
+                $cordovaVibration.vibrate(2500);
+            } catch (e) { alert(e) }
+        }
     }
 });

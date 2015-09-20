@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.controllers', 'cync.services', 'cync.parse', 'pubnub.angular.service'])
+angular.module('starter', ['ngMaterial', 'ngCordova', 'ionic', 'ionic.service.core', 'cync.controllers', 'cync.services', 'cync.parse', 'pubnub.angular.service'])
 
 .run(function($ionicPlatform, PubNub) {
   PubNub.init({

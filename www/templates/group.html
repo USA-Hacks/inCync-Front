@@ -12,8 +12,8 @@
                     11:24
                     <div class="layout">
                         <md-input-container>
-                            <label>Duration</label>
-                            <input ng-model="settings.time">
+                            <label>Notification Interval</label>
+                            <input ng-model="settings.interval">
                         </md-input-container>
                         <md-input-container>
                             <label>Count</label>
@@ -22,7 +22,7 @@
                     </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button class="md-accent" ng-click="start">Start</md-button>
+                    <md-button class="md-accent" ng-click="start()">Start</md-button>
                 </div>
             </md-card>
         </div>
