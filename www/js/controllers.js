@@ -74,7 +74,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     };
 })
 
-.controller('GroupCtrl', function($scope, $stateParams, $state, groups, incyncParse, $cordovaVibration) {
+.controller('GroupCtrl', function($rootScope, $scope, $stateParams, $state, groups, incyncParse, $cordovaVibration, PubNub) {
     $scope.group = {};
     $scope.settings = {};
     $scope.doneLoading = false;
@@ -105,18 +105,39 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
     $scope.start = function() {
         $scope.save(function() {
-            incyncParse.start_presentation($scope.group.objectId);
-            try {
-                $cordovaVibration.vibrate(2500);
-            } catch (e) {
-                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+            incyncParse.start_presentation($scope.group.objectId).then(
+              function succes() {
+                PubNub.ngSubscribe({ channel: $scope.group.objectId })
+                $rootScope.$on(PubNub.ngMsgEv($scope.group.objectId), function(event, payload) {
+                  try {
+                      $cordovaVibration.vibrate(750);
+                  } catch (e) {
+                      navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
-                if (navigator.vibrate) {
-                    navigator.vibrate(2500);
-                } else {
-                    alert('Vibration is not supported on this device');
-                }
-            }
+                      if (navigator.vibrate) {
+                          navigator.vibrate(750);
+                      } else {
+                          alert('Vibration is not supported on this device');
+                      }
+                  }
+                });
+              },
+              function error() {
+                console.log("FUCK");
+              }
+            );
+
+            // try {
+            //     $cordovaVibration.vibrate(2500);
+            // } catch (e) {
+            //     navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+            //
+            //     if (navigator.vibrate) {
+            //         navigator.vibrate(2500);
+            //     } else {
+            //         alert('Vibration is not supported on this device');
+            //     }
+            // }
         });
     };
 });
