@@ -100,10 +100,18 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
             incyncParse.update_presentation($scope.group.objectId, arr).then(function() {
 
             });
-            alert('Doing thissss');
+
             try {
                 $cordovaVibration.vibrate(2500);
-            } catch (e) { alert(e) }
+            } catch (e) {
+                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+                if (navigator.vibrate) {
+                    navigator.vibrate(2500);
+                } else {
+                    alert('Vibration is not supported on this device');
+                }
+            }
         }
     }
 });
