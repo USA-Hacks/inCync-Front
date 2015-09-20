@@ -6,14 +6,27 @@
                     <h1>{{ group.name }}</h1>
                     <i class="icon ion-clock"></i>
                     {{ (group.settings.slice(-1)[0] * 1000)|date:'mm:ss' }}
+                    <md-list>
+                      <md-subheader class="md-no-sticky">Notification Times</md-subheader>
+                      <md-list-item ng-repeat="time in group.settings">
+                        <p> {{ (time * 1000)|date:'mm:ss' }} </p>
+                        <md-button class="md-warn" ng-click="deleteTime(time)">Delete</md-button>
+                      </md-list-item>
+                    </md-list>
+
                     <div class="layout">
-                        <md-input-container>
-                            <label>Notification Time (s)</label>
-                            <input ng-model="settings.interval">
-                        </md-input-container>
+                            <md-input-container>
+                              <label>Minutes</label>
+                              <input required type="text" step="any" ng-model="settings.mins">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>Seconds</label>
+                              <input required type="text" step="any" ng-model="settings.secs">
+                            </md-input-container>
                     </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
+                    <md-button class="md-raised" ng-click="addTime()">Add Time</md-button>
                     <md-button ng-click="save()">Save</md-button>
                     <md-button class="md-accent" ng-click="start()">Start</md-button>
                 </div>

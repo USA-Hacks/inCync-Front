@@ -125,13 +125,26 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         });
     });
 
-    $scope.save = function(callback) {
-        var local = $scope.settings.interval.split(',').map(function(w) {
-            return w.trim();
-        });
+    $scope.deleteTime = function(time) {
+      var index = $scope.group.settings.indexOf(time);
+      if (index > -1) {
+          $scope.group.settings.splice(index, 1);
+      }
+    }
 
-        $scope.group.clock = parseInt(local[local.length - 1]);
-        incyncParse.update_presentation($scope.group.objectId, local).then(function() {
+    $scope.addTime = function() {
+      var time = ($scope.settings.mins * 60) + $scope.settings.secs;
+      $scope.group.settings.push(time);
+    }
+
+    $scope.save = function(callback) {
+        // var local = $scope.settings.interval.split(',').map(function(w) {
+        //     return w.trim();
+        // });
+        //
+        // $scope.group.clock = parseInt(local[local.length - 1]);
+        $scope.group.clock = parseInt($scope.group.settings[$scope.group.settings.length - 1]);
+        incyncParse.update_presentation($scope.group.objectId, $scope.group.settings).then(function() {
             if (callback) callback();
         });
     };
