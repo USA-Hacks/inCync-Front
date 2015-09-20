@@ -40,13 +40,15 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     };
 })
 
-.controller('GroupsCtrl', function($scope, $state, $rootScope, groups, $window) {
+.controller('GroupsCtrl', function($scope, $state, $rootScope, groups, $window, PubNub) {
     $scope.groups = groups.getGroups();
-
-    $scope.$on('$ionicView.beforeEnter', function() {
-        console.log(8)
-        $scope.groups = groups.getGroups();
-    });
+    if (window.subscribed) {
+        window.subscribed.forEach(function(group) {
+            console.log('leaving ' + group.name);
+            PubNub.ngUnsubscribe({channel: group.objectId});
+        });
+        window.subscribed = undefined;
+    }
 
     $scope.goto = function(group) {
         $rootScope.button = 'reply';
@@ -82,6 +84,29 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     groups.getGroup($stateParams.id, function(group) {
         $scope.doneLoading = true;
         $scope.group = group;
+
+        console.log('subscribing to ' + $scope.group.name);
+        window.subscribed = window.subscribed || [];
+        window.subscribed.push($scope.group);
+        PubNub.ngSubscribe({ channel: $scope.group.objectId })
+        $rootScope.$on(PubNub.ngMsgEv($scope.group.objectId), function(event, payload) {
+            payload = JSON.parse(payload);
+            if (payload.type === 'vibrate') {
+                try {
+                    $cordovaVibration.vibrate(750);
+                } catch (e) {
+                    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+                    if (navigator.vibrate) {
+                        navigator.vibrate(750);
+                    } else {
+                        alert('Vibration is not supported on this device');
+                    }
+                }
+            } else if (payload.type === 'start') {
+                $scope.gotoTimer();
+            }
+        });
     });
 
     $scope.gotoTimer = function() {
@@ -105,39 +130,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
     $scope.start = function() {
         $scope.save(function() {
-            incyncParse.start_presentation($scope.group.objectId).then(
-              function succes() {
-                PubNub.ngSubscribe({ channel: $scope.group.objectId })
-                $rootScope.$on(PubNub.ngMsgEv($scope.group.objectId), function(event, payload) {
-                  try {
-                      $cordovaVibration.vibrate(750);
-                  } catch (e) {
-                      navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
-                      if (navigator.vibrate) {
-                          navigator.vibrate(750);
-                      } else {
-                          alert('Vibration is not supported on this device');
-                      }
-                  }
-                });
-              },
-              function error() {
-                console.log("FUCK");
-              }
-            );
-
-            // try {
-            //     $cordovaVibration.vibrate(2500);
-            // } catch (e) {
-            //     navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-            //
-            //     if (navigator.vibrate) {
-            //         navigator.vibrate(2500);
-            //     } else {
-            //         alert('Vibration is not supported on this device');
-            //     }
-            // }
+            incyncParse.start_presentation($scope.group.objectId);
         });
     };
 });
