@@ -27,30 +27,40 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
                 $scope.groups = groups.getGroups();
-                $scope.fabAction();
+                $state.go('cync.groups');
             });
         } else if ($scope.inputValid === 'input-invalid') {
             groups.joinGroup($scope.group.name, function() {
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
                 $scope.groups = groups.getGroups();
-                $scope.fabAction();
+                $state.go('cync.groups');
             });
         }
     };
 })
 
-.controller('GroupsCtrl', function($scope, $state, $rootScope) {
-    console.log($scope.groups);
-    $scope.goto = function(id) {
+.controller('GroupsCtrl', function($scope, $state, $rootScope, groups, $window) {
+    $scope.groups = groups.getGroups();
+
+    $scope.$on('$ionicView.beforeEnter', function() {
+        console.log(8)
+        $scope.groups = groups.getGroups();
+    });
+
+    $scope.goto = function(group) {
         $rootScope.button = 'reply';
-        $state.go('cync.group', {id: id});
+        $state.go('cync.group', {id: group.name});
+    };
+
+    $scope.delete = function(group) {
+        groups.deleteGroup(group.name);
+        $state.go($state.current, {}, {reload: true});
     }
 })
 
 .controller('CyncCtrl', function($scope, $state, groups, $rootScope) {
     $rootScope.button = 'add';
-    $scope.groups = groups.getGroups();
 
     $scope.fabAction = function() {
         if ($rootScope.button === 'add') {
@@ -66,13 +76,15 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
 .controller('GroupCtrl', function($scope, $stateParams, $state, groups) {
     $scope.group = {};
+    $scope.settings = {};
     $scope.doneLoading = false;
+    $scope.started = false;
     groups.getGroup($stateParams.id, function(group) {
         $scope.doneLoading = true;
         $scope.group = group;
     });
 
     $scope.gotoTimer = function() {
-        $state.go('.timer');
+        $scope.started = true;
     }
 });

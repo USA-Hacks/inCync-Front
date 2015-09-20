@@ -17,17 +17,22 @@ angular.module('cync.services', ['cync.parse'])
 
     var joinGroup = function(groupName, callback) {
         var groups = getGroups();
-        incyncParse.get_presentation(groupName).then(function(data) {
-            data = JSON.parse(data.result);
-            var res = groups.filter(function(g) { return g.id === data.objectId });
+        var res = groups.filter(function(g) { return g.name === groupName });
+        if (res.length !== 0 && callback) {
+            callback()
+        } else {
+            incyncParse.get_presentation(groupName).then(function(data) {
+                data = JSON.parse(data.result);
+                var res = groups.filter(function(g) { return g.name === groupName });
 
-            if (res.length === 0) {
-                groups.push({name: data.name, id: data.objectId});
-                window.localStorage['groups'] = JSON.stringify(groups);
-            }
+                if (res.length === 0) {
+                    groups.push({name: data.name, id: data.objectId});
+                    window.localStorage['groups'] = JSON.stringify(groups);
+                }
 
-            if (callback) callback();
-        });
+                if (callback) callback();
+            });
+        }
     }
 
     var deleteGroup = function(groupName) {
@@ -36,7 +41,6 @@ angular.module('cync.services', ['cync.parse'])
         });
 
         window.localStorage['groups'] = JSON.stringify(groups);
-        return groups;
     };
 
     var getGroup = function(groupName, callback) {

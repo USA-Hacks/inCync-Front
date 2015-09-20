@@ -1,7 +1,34 @@
 <div>
     <div ng-if="doneLoading">
-        <h1>{{ group.name }}</h1>
-        <button ng-click="">Hey</button>
+        <div ng-if="!started">
+            <md-card class="" ng-click="goto(group)">
+                <md-card-content>
+                    <h1>{{ group.name }}</h1>
+                    <i class="icon ion-person"></i>
+                    11
+                    &nbsp;
+                    &nbsp;
+                    <i class="icon ion-clock"></i>
+                    11:24
+                    <div class="layout">
+                        <md-input-container>
+                            <label>Duration</label>
+                            <input ng-model="settings.time">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Count</label>
+                            <input ng-model="settings.count">
+                        </md-input-container>
+                    </div>
+                </md-card-content>
+                <div class="md-actions" layout="row" layout-align="end center">
+                    <md-button class="md-accent" ng-click="start">Start</md-button>
+                </div>
+            </md-card>
+        </div>
+        <div ng-if="started">
+
+        </div>
     </div>
     <div ng-if="!doneLoading">
         <ion-spinner style="position:absolute;top:0;width:200px;height:200px;margin-top:50vh;margin-left:50vw;" icon="spiral"></ion-spinner>

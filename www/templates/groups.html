@@ -1,5 +1,5 @@
 <div class="groups" ng-repeat="group in groups">
-    <md-card class="" ng-click="goto(group.name)">
+    <md-card class="" ng-click="goto(group)">
         <md-card-content>
             <h1>{{ group.name }}</h1>
             <i class="icon ion-person"></i>
@@ -11,7 +11,7 @@
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button>Edit</md-button>
-            <md-button class="md-warn">Delete</md-button>
+            <md-button class="md-warn" ng-click="delete(group)">Delete</md-button>
         </div>
     </md-card>
 </div>
