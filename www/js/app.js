@@ -70,11 +70,7 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
   });
 
   // if none of the above states are matched, use this as the fallback
-  if (!window.localStorage['groups']) {
-      $urlRouterProvider.otherwise('/new');
-  } else {
-      $urlRouterProvider.otherwise('/cync');
-  }
+  $urlRouterProvider.otherwise('/cync');
 
   $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('deep-purple');
 

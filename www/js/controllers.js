@@ -27,14 +27,14 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
                 $scope.groups = groups.getGroups();
-                $scope.fabAction()
+                $scope.fabAction();
             });
         } else if ($scope.inputValid === 'input-invalid') {
             groups.joinGroup($scope.group.name, function() {
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
                 $scope.groups = groups.getGroups();
-                $state.go('cync');
+                $scope.fabAction();
             });
         }
     };
@@ -60,7 +60,10 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         $state.go('.group', {id: id});
     }
 
-
+    if (!$scope.groups || $scope.groups.length === 0) {
+        console.log(77)
+        $scope.fabAction();
+    }
 })
 
 .controller('GroupCtrl', function($scope, $stateParams, $state, groups) {
