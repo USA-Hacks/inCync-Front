@@ -1,9 +1,10 @@
 angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
-.controller('NewCtrl', function($scope, $state, groups, incyncParse, $ionicHistory) {
+.controller('NewCtrl', function($scope, $state, groups, incyncParse, $ionicHistory, $rootScope) {
     $scope.group = {};
     $scope.group.name = '';
     $scope.inputValid = '';
+    $rootScope.button = 'reply';
 
     $scope.validate = function() {
         if ($scope.group.name !== '') {
@@ -42,10 +43,9 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 
 .controller('GroupsCtrl', function($scope, $state, $rootScope, groups, $window, PubNub) {
     $scope.groups = groups.getGroups();
-    document.getElementById('fab').setAttribute('style', '');
+    $rootScope.button = 'add';
 
     if (!$scope.groups || $scope.groups.length === 0) {
-        document.getElementById('fab').setAttribute('style', 'display:none');
         $state.go('cync.new');
     }
 
@@ -69,7 +69,6 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 })
 
 .controller('CyncCtrl', function($scope, $state, groups, $rootScope) {
-    $scope.hideFAB = false;
     $rootScope.button = 'add';
 
     $scope.fabAction = function() {
@@ -109,7 +108,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                     $cordovaVibration.vibrate(750);
                 } catch (e) {
                     navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
+                    console.log('vibrating!');
                     if (navigator.vibrate) {
                         navigator.vibrate(750);
                     } else {
