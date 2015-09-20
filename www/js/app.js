@@ -27,7 +27,7 @@ angular.module('starter', ['ngMaterial', 'ngCordova', 'ionic', 'ionic.service.co
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $mdIconProvider) {
+.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $mdIconProvider, $mdGestureProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -80,4 +80,6 @@ angular.module('starter', ['ngMaterial', 'ngCordova', 'ionic', 'ionic.service.co
   $mdIconProvider
       .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
       .defaultIconSet('img/icons/sets/core-icons.svg', 24);
+
+      $mdGestureProvider.skipClickHijack();
 });
