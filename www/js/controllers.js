@@ -71,6 +71,14 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 .controller('CyncCtrl', function($scope, $state, groups, $rootScope) {
     $rootScope.button = 'add';
 
+    $scope.goHome = function() {
+        $state.go('cync.groups');
+    };
+
+    $scope.goNew = function() {
+        $state.go('cync.new');
+    }
+
     $scope.fabAction = function() {
         if ($rootScope.button === 'add') {
             $rootScope.button = 'reply';
