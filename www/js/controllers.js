@@ -90,8 +90,8 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         window.subscribed.push($scope.group);
         PubNub.ngSubscribe({ channel: $scope.group.objectId })
         $rootScope.$on(PubNub.ngMsgEv($scope.group.objectId), function(event, payload) {
-            payload = JSON.parse(payload);
-            if (payload.type === 'vibrate') {
+            console.log(payload.message.type);
+            if (payload.message.type === 'vibrate') {
                 try {
                     $cordovaVibration.vibrate(750);
                 } catch (e) {
@@ -103,7 +103,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                         alert('Vibration is not supported on this device');
                     }
                 }
-            } else if (payload.type === 'start') {
+            } else if (payload.message.type === 'start') {
                 $scope.gotoTimer();
             }
         });
