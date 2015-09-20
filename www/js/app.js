@@ -59,10 +59,14 @@ angular.module('starter', ['ngMaterial', 'ionic', 'ionic.service.core', 'cync.co
       }
   })
 
-  .state('new', {
+  .state('cync.new', {
      url: '/new',
-     templateUrl: 'templates/new.html',
-     controller: 'NewCtrl'
+     views: {
+         'outerContent': {
+             templateUrl: 'templates/new.html',
+             controller: 'NewCtrl'
+         }
+     }
   });
 
   // if none of the above states are matched, use this as the fallback

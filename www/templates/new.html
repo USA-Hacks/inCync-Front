@@ -1,20 +1,18 @@
-<ion-view hide-nav-bar="true">
-    <ion-content class="new-view">
-        <div class="hero no-header flat">
-            <div class="content cync-center">
-                <div class="app-icon"></div>
-                <h1>n*Cync</h1>
-            </div>
+<div class="new-view">
+    <div class="hero no-header flat">
+        <div class="content cync-center">
+            <div class="app-icon"></div>
+            <h1>n*Cync</h1>
         </div>
-        <form ng-submit="addGroup()">
-            <div class="list list-inset">
-                <label class="item item-input new-form" ng-class="inputValid">
-                    <i class="icon ion-flash placeholder-icon"></i>
-                    <input ng-change="validate()" type="text" placeholder="Group ID" ng-model="group.name" autocorrect="off">
-                    <button ng-show="inputValid == 'input-valid'" class="button button-icon confirm-icon">Create</button>
-                    <button ng-show="inputValid == 'input-invalid'" class="button button-icon join-icon">Join</button>
-                </label>
-            </div>
-        </form>
-    </ion-content>
-</ion-view>
+    </div>
+    <form ng-submit="addGroup()">
+        <div class="list list-inset">
+            <label class="item item-input new-form" ng-class="inputValid">
+                <i class="icon ion-flash placeholder-icon"></i>
+                <input ng-change="validate()" type="text" placeholder="Group ID" ng-model="group.name" autocorrect="off">
+                <button ng-show="inputValid == 'input-valid'" class="button button-icon confirm-icon">Create</button>
+                <button ng-show="inputValid == 'input-invalid'" class="button button-icon join-icon">Join</button>
+            </label>
+        </div>
+    </form>
+</div>

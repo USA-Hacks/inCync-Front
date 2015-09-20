@@ -26,12 +26,14 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
             groups.addGroup($scope.group.name, function(id) {
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
-                $state.go('cync');
+                $scope.groups = groups.getGroups();
+                $scope.fabAction()
             });
         } else if ($scope.inputValid === 'input-invalid') {
             groups.joinGroup($scope.group.name, function() {
                 $scope.group = {name: ''};
                 $scope.inputValid = '';
+                $scope.groups = groups.getGroups();
                 $state.go('cync');
             });
         }
@@ -41,10 +43,11 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 .controller('CyncCtrl', function($scope, $state, groups) {
     $scope.button = 'add';
     $scope.groups = groups.getGroups();
-    
-    $scope.addGroup = function() {
+
+    $scope.fabAction = function() {
         if ($scope.button === 'add') {
-            $state.go('new');
+            $scope.button = 'reply';
+            $state.go('.new');
         } else {
             $scope.button = 'add';
             $scope.groups = groups.getGroups();
