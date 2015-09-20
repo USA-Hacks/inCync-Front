@@ -1,6 +1,6 @@
 angular.module('cync.services', ['cync.parse'])
 
-.factory('groups', function(incyncParse) {
+.factory('groups', function(incyncParse, PubNub) {
     var getGroups = function() {
         var groups = JSON.parse(window.localStorage['groups'] || '[]');
         return groups;
@@ -43,9 +43,13 @@ angular.module('cync.services', ['cync.parse'])
         window.localStorage['groups'] = JSON.stringify(groups);
     };
 
-    var getGroup = function(groupName, callback) {
-        incyncParse.get_presentation(groupName).then(function(data) {
-            if (callback) callback(JSON.parse(data.result));
+    var getGroup = function(id, callback) {
+        incyncParse.get_presentation(id).then(function(data) {
+            var res = JSON.parse(data.result);
+            res.clock = res.settings.slice(-1)[0];
+            var groups = getGroups();
+
+            if (callback) callback(res);
         }, function(e) { console.log("OMG", e); });
     }
 

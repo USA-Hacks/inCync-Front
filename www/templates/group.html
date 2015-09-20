@@ -4,20 +4,12 @@
             <md-card class="" ng-click="goto(group)">
                 <md-card-content>
                     <h1>{{ group.name }}</h1>
-                    <i class="icon ion-person"></i>
-                    11
-                    &nbsp;
-                    &nbsp;
                     <i class="icon ion-clock"></i>
-                    11:24
+                    {{ (group.settings.slice(-1)[0] * 1000)|date:'mm:ss' }}
                     <div class="layout">
                         <md-input-container>
-                            <label>Notification Interval</label>
+                            <label>Notification Time (s)</label>
                             <input ng-model="settings.interval">
-                        </md-input-container>
-                        <md-input-container>
-                            <label>Count</label>
-                            <input ng-model="settings.count">
                         </md-input-container>
                     </div>
                 </md-card-content>
@@ -29,7 +21,7 @@
         </div>
         <div ng-if="started" class="timer">
             <h3>Time Elapsed</h3>
-            <h1>{{ minutes }}:{{ seconds }}</h1>
+            <h1>{{ (clock * 1000)|date:'mm:ss' }}</h1>
         </div>
     </div>
     <div ng-if="!doneLoading">

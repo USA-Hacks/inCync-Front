@@ -92,8 +92,10 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     groups.getGroup($stateParams.id, function(group) {
         $scope.doneLoading = true;
         $scope.group = group;
-        $scope.minutes = '--';
-        $scope.seconds = '--';
+        $scope.clock = 0;
+        console.log(group);
+        $scope.settings.interval = group.settings.join(', ');
+        //$scope.$apply();
 
         console.log('subscribing to ' + $scope.group.name);
         window.subscribed = window.subscribed || [];
@@ -107,43 +109,31 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                 try {
                     $cordovaVibration.vibrate(750);
                 } catch (e) {
-                    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
                     console.log('vibrating!');
-                    if (navigator.vibrate) {
-                        navigator.vibrate(750);
-                    } else {
-                        alert('Vibration is not supported on this device');
-                    }
+                    window.navigator.vibrate(750);
                 }
             } else if (payload.message.type === 'start') {
-                var time = JSON.parse(payload.message.presentation).settings.pop();
-                var clock = time;
-                $scope.minutes = Math.floor(clock / 60);
-                $scope.seconds = clock % 60;
+                $scope.clock = $scope.group.clock;
 
                 new Timer({
                     ontick: function() {
-                        --clock;
-                        $scope.minutes = Math.floor(clock / 60);
-                        $scope.seconds = clock % 60;
+                        --$scope.clock;
                         $scope.$apply();
                     }
-                }).start(time + 1);
+                }).start($scope.group.clock + 1);
             }
         });
     });
 
     $scope.save = function(callback) {
-        if ($scope.settings.count && $scope.settings.interval) {
-            var arr = [];
-            for (var i = 0; i < $scope.settings.count; ++i) {
-                arr.push($scope.settings.interval * (i + 1));
-            }
+        var local = $scope.settings.interval.split(',').map(function(w) {
+            return w.trim();
+        });
 
-            incyncParse.update_presentation($scope.group.objectId, arr).then(function() {
-                if (callback) callback();
-            });
-        }
+        $scope.group.clock = parseInt(local[local.length - 1]);
+        incyncParse.update_presentation($scope.group.objectId, local).then(function() {
+            if (callback) callback();
+        });
     };
 
     $scope.start = function() {
