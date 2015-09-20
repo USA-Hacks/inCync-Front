@@ -9,6 +9,7 @@
     "angular-material": "~0.11.0",
     "ionic-material": "~0.4.2",
     "pubnub-angular": "~1.1.0",
-    "robotodraft": "~1.1.0"
+    "robotodraft": "~1.1.0",
+    "timer.js": "timerjs#~1.0.3"
   }
 }

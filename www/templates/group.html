@@ -27,8 +27,9 @@
                 </div>
             </md-card>
         </div>
-        <div ng-if="started">
-
+        <div ng-if="started" class="timer">
+            <h3>Time Elapsed</h3>
+            <h1>{{ minutes }}:{{ seconds }}</h1>
         </div>
     </div>
     <div ng-if="!doneLoading">

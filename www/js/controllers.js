@@ -77,6 +77,7 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
 })
 
 .controller('GroupCtrl', function($rootScope, $scope, $stateParams, $state, groups, incyncParse, $cordovaVibration, PubNub) {
+    $rootScope.button = 'reply';
     $scope.group = {};
     $scope.settings = {};
     $scope.doneLoading = false;
@@ -84,6 +85,8 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
     groups.getGroup($stateParams.id, function(group) {
         $scope.doneLoading = true;
         $scope.group = group;
+        $scope.minutes = '--';
+        $scope.seconds = '--';
 
         console.log('subscribing to ' + $scope.group.name);
         window.subscribed = window.subscribed || [];
@@ -91,6 +94,8 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
         PubNub.ngSubscribe({ channel: $scope.group.objectId })
         $rootScope.$on(PubNub.ngMsgEv($scope.group.objectId), function(event, payload) {
             console.log(payload.message.type);
+            $scope.started = true;
+            $scope.$apply();
             if (payload.message.type === 'vibrate') {
                 try {
                     $cordovaVibration.vibrate(750);
@@ -104,23 +109,29 @@ angular.module('cync.controllers', ['ionic', 'cync.services', 'cync.parse'])
                     }
                 }
             } else if (payload.message.type === 'start') {
-                $scope.gotoTimer();
+                var time = JSON.parse(payload.message.presentation).settings.pop();
+                var clock = time;
+                $scope.minutes = Math.floor(clock / 60);
+                $scope.seconds = clock % 60;
+
+                new Timer({
+                    ontick: function() {
+                        --clock;
+                        $scope.minutes = Math.floor(clock / 60);
+                        $scope.seconds = clock % 60;
+                        $scope.$apply();
+                    }
+                }).start(time + 1);
             }
         });
     });
 
-    $scope.gotoTimer = function() {
-        $scope.started = true;
-    };
-
     $scope.save = function(callback) {
         if ($scope.settings.count && $scope.settings.interval) {
-            var arr = [], total = parseInt($scope.settings.interval);
+            var arr = [];
             for (var i = 0; i < $scope.settings.count; ++i) {
                 arr.push($scope.settings.interval * (i + 1));
-                total += parseInt($scope.settings.interval);
             }
-            arr.push(total);
 
             incyncParse.update_presentation($scope.group.objectId, arr).then(function() {
                 if (callback) callback();

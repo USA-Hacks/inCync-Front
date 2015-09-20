@@ -23,3 +23,12 @@ h1, h2, h3, h4, h5, h6, p, li, .title, button {
     margin-top: 88vh;
     margin-left: 80vw;
 }
+
+.timer {
+    text-align: center;
+    margin-top: 30vh;
+}
+
+.timer h1 {
+    font-size: 60pt;
+}
